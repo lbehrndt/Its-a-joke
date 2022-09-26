@@ -1,0 +1,134 @@
+/* DOCUMENT */
+
+:root {
+  --primary: #242424;
+  --secondary: #ffffff60;
+  --accent: #4683de;
+  --text-pri: #ffffff60;
+  --text-sec: #ffffff;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--primary);
+  margin: 0;
+}
+
+/* CONTENT */
+
+body {
+  margin: auto 16px;
+}
+
+section {
+  margin: auto;
+  max-width: 728px;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* HEADINGS */
+
+.heading-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 42px;
+  margin-bottom: 18px;
+  font-weight: bold;
+  color: var(--text-sec);
+}
+
+p {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--text-pri);
+  margin-bottom: 32px;
+}
+
+/* FORM */
+
+.input-fields-flex > form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-fields-flex {
+  width: 100%;
+}
+
+.input-field {
+  margin: 16px 0px;
+  padding: 21px 16px;
+  font-size: 14px;
+  max-width: 728px;
+  width: 95%;
+  color: var(--text-pri);
+  border: 1px solid var(--text-pri);
+  border-radius: 8px;
+}
+
+.input-field:focus {
+  color: var(--text-sec);
+  outline: none;
+  border-color: var(--accent);
+}
+
+.checkbox-container-flex {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.checkbox {
+  -webkit-appearance: none;
+  background-color: var(--primary);
+  border: 1px solid var(--text-pri);
+  border-radius: 4px;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+.checkbox:hover {
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  background-color: var(--accent);
+  border: 1px solid var(--text-pri);
+}
+
+.conditions-text {
+  font-size: 14px;
+  color: var(--text-pri);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.cta-button {
+  margin: 0;
+  height: 56px;
+  font-size: 16px;
+  color: var(--text-sec);
+  background-color: var(--accent);
+  border: 0 solid transparent;
+  border-radius: 8px;
+  width: fit-content;
+  padding: 0 10%;
+}
+
+hr.divider {
+  margin-top: 32px;
+  width: 728px;
+  border: 0.5px solid var(--text-pri);
+}
