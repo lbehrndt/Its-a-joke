@@ -8,7 +8,7 @@
     <title>It's a joke!</title>
   </head>
   <body>
-    <section>
+    <div id="contact">
       <div class="heading-flex">
         <h1>Get a joke delivered to you.</h1>
         <p class="description">
@@ -60,6 +60,15 @@
         </form>
       </div>
       <hr class="divider"></hr>
-    </section>
+    </div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script type="text/babel" src="/components/js/contact.js">
+    React.render(
+        <Contact />,
+        document.getElementById('content')
+      );
+      </script>
   </body>
 </html>
