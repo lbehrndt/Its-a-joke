@@ -1,15 +1,11 @@
-import React from "react";
+import React, { isValidElement } from "react";
 import ReactDOM from "react-dom/client";
 
 class ContactForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
-            companyName: "",
-            email: "",
-            accepted: false,
+            formValues: {},
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -17,33 +13,74 @@ class ContactForm extends React.Component {
     }
 
     handleChange(event) {
+        const formValues = this.state.formValues;
+        const name = event.target.name;
+        const value = event.target.value;
+
+        if (name === "email") {
+            this.validateEmail(value) ? event.target.css : event.target.css;
+        }
+
+        formValues[name] = value;
         this.setState({
-            firstName: event.target.value,
+            formValues,
         });
     }
 
     handleSubmit(event) {
-        alert("Ah! That's how it works with " + this.state.firstName + ".");
+        const formValues = this.state.formValues;
+        const name = formValues["last-name"]
+            ? formValues["first-name"] + " " + formValues["last-name"]
+            : formValues["first-name"];
+        const email = formValues["email"];
+
         event.preventDefault();
+        if (name && email) {
+            sendEmail(email);
+            alert("An email was sent to: " + email);
+        } else {
+            alert(
+                "We need your first name to know who we are sending an email to."
+            );
+        }
     }
+
+    validateEmail = (email) => {
+        return email.match(
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+
+    validate = () => {
+        const $result = $("result");
+        const email = $("email").val();
+        $result.text("");
+
+        if(this.validateEmail(email)) {
+            $result.text(email + " is valid.");
+            $result.css("color", "var(--success)");
+        } else {
+            $result.text(email + " is invalid.");
+            $result.css("color", "var(--error)");
+        }
+    };
 
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="input-fields-flex">
                     <input
-                        required
                         type="text"
-                        placeholder="First Name"
                         name="first-name"
                         className="input-field"
+                        placeholder="First Name"
                         onChange={this.handleChange}
                     />
                     <input
                         type="text"
-                        placeholder="Last Name"
                         name="last-name"
                         className="input-field"
+                        placeholder="Last Name"
                         onChange={this.handleChange}
                     />
                     <input
@@ -54,14 +91,19 @@ class ContactForm extends React.Component {
                         onChange={this.handleChange}
                     />
                     <input
-                        required
                         type="email"
                         placeholder="Email"
+                        name="email"
                         className="input-field"
                         onChange={this.handleChange}
                     />
                     <div className="checkbox-container-flex">
-                        <input required type="checkbox" className="checkbox" onChange={this.state.accepted = true}/>
+                        <input
+                            type="checkbox"
+                            name="agreement"
+                            className="checkbox"
+                            onChange={this.handleChange}
+                        />
                         <p className="conditions-text">
                             I agree to nothing and I just want a funny{" "}
                             <a
