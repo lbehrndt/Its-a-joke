@@ -82,13 +82,17 @@ p {
   border-color: var(--accent);
 }
 
-.input-field:placeholder-shown {
-  color: var(--text-sec);
-}
 .input-field:not(:placeholder-shown):not(:focus) {
   color: var(--text-sec);
   transition: .65s;
+}
+
+.input-field-valid{
   border-color: var(--success);
+}
+
+.input-field-invalid{
+  border-color: var(--error);
 }
 
 .checkbox-container-flex {

@@ -1,11 +1,14 @@
 import React, { isValidElement } from "react";
 import ReactDOM from "react-dom/client";
+import emailjs from "@emailjs/browser";
 
+const axios = require("axios");
 class ContactForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             formValues: {},
+            validEmail: true,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -17,9 +20,7 @@ class ContactForm extends React.Component {
         const name = event.target.name;
         const value = event.target.value;
 
-        if (name === "email") {
-            this.validateEmail(value) ? event.target.css : event.target.css;
-        }
+        console.log(name);
 
         formValues[name] = value;
         this.setState({
@@ -29,40 +30,68 @@ class ContactForm extends React.Component {
 
     handleSubmit(event) {
         const formValues = this.state.formValues;
-        const name = formValues["last-name"]
-            ? formValues["first-name"] + " " + formValues["last-name"]
-            : formValues["first-name"];
+        const validEmail = this.state.validEmail;
         const email = formValues["email"];
+        const name = formValues["first-name"];
+
+        /* validEmail = this.validEmail(email);
+        this.setState({
+            validEmail
+        }) */
+
 
         event.preventDefault();
-        if (name && email) {
-            sendEmail(email);
-            alert("An email was sent to: " + email);
+        if (name && validEmail) {
+            this.sendEmail(email);
         } else {
-            alert(
-                "We need your first name to know who we are sending an email to."
-            );
+            validEmail
+                ? alert(
+                      "We need your first name to know who we are sending an email to."
+                  )
+                : alert("Your email is not matching the valid characters.");
         }
     }
 
-    validateEmail = (email) => {
-        return email.match(
+    sendEmail() {
+        const formValues = this.state.formValues;
+        const email = formValues["email"];
+        const name = formValues["last-name"]
+            ? formValues["first-name"] + formValues["last-name"]
+            : formValues["first-name"];
+        const joke = this.getJoke();
+
+        const templateParams = {
+            name: name,
+            email: email,
+            joke: joke,
+        };
+        console.log(name + " " + email + " " + joke);
+        /* emailjs.send(
+            "service_gfdemad",
+            "template_99koi9e",
+            templateParams,
+            "plWhU5JpRUiuryxHX"
+        ); */
+
+        alert("Your joke was sent to " + email + " :).");
+    }
+
+    getJoke() {
+        const joke = axios.get("https://api.chucknorris.io/jokes/random")
+        .then((response) => {
+            return response.data.value;
+        });
+
+        return joke;
+    }
+
+    validEmail = (email) => {
+        let valid = email.match(
             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
-    };
-
-    validate = () => {
-        const $result = $("result");
-        const email = $("email").val();
-        $result.text("");
-
-        if(this.validateEmail(email)) {
-            $result.text(email + " is valid.");
-            $result.css("color", "var(--success)");
-        } else {
-            $result.text(email + " is invalid.");
-            $result.css("color", "var(--error)");
-        }
+        const inputFieldStateColor = valid ? "var(--success)" : "var(--error)";
+        // email.css("border-color", inputFieldStateColor);
+        this.setState({valid});
     };
 
     render() {
