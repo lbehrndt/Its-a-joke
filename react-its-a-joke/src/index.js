@@ -1,6 +1,7 @@
-import React, { isValidElement } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import emailjs from "@emailjs/browser";
+import "../src/index.css";
 
 const axios = require("axios");
 class ContactForm extends React.Component {
@@ -52,26 +53,26 @@ class ContactForm extends React.Component {
         }
     }
 
-    sendEmail() {
+    async sendEmail() {
         const formValues = this.state.formValues;
         const email = formValues["email"];
         const name = formValues["last-name"]
-            ? formValues["first-name"] + formValues["last-name"]
+            ? formValues["first-name"] + " " + formValues["last-name"]
             : formValues["first-name"];
-        const joke = this.getJoke();
+        const joke = await this.getJoke();
 
         const templateParams = {
             name: name,
             email: email,
-            joke: joke,
+            joke: joke
         };
         console.log(name + " " + email + " " + joke);
-        /* emailjs.send(
+        emailjs.send(
             "service_gfdemad",
             "template_99koi9e",
             templateParams,
             "plWhU5JpRUiuryxHX"
-        ); */
+        );
 
         alert("Your joke was sent to " + email + " :).");
     }
@@ -87,10 +88,12 @@ class ContactForm extends React.Component {
 
     validEmail = (email) => {
         let valid = email.match(
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         );
-        const inputFieldStateColor = valid ? "var(--success)" : "var(--error)";
-        // email.css("border-color", inputFieldStateColor);
+        const inputFieldStateColor = this.state.formValues["email"] ? "var(--success)" : "var(--error)";
+        const emailInputField = document.getElementById("email-input-field");
+        emailInputField.style.borderColor = inputFieldStateColor;
+
         this.setState({valid});
     };
 
@@ -123,6 +126,7 @@ class ContactForm extends React.Component {
                         type="email"
                         placeholder="Email"
                         name="email"
+                        id="email-input-field"
                         className="input-field"
                         onChange={this.handleChange}
                     />
