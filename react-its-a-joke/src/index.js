@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import "../src/index.css";
 
 const axios = require("axios");
+
 class ContactForm extends React.Component {
     constructor(props) {
         super(props);
@@ -11,11 +12,11 @@ class ContactForm extends React.Component {
             formValues: {},
             validEmail: true,
         };
-
+        
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+     
     handleChange(event) {
         const formValues = this.state.formValues;
         const name = event.target.name;
@@ -34,12 +35,6 @@ class ContactForm extends React.Component {
         const validEmail = this.state.validEmail;
         const email = formValues["email"];
         const name = formValues["first-name"];
-
-        /* validEmail = this.validEmail(email);
-        this.setState({
-            validEmail
-        }) */
-
 
         event.preventDefault();
         if (name && validEmail) {
